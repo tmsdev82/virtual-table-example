@@ -36,3 +36,46 @@
     transform: rotate(360deg);
   }
 }
+
+/* .coin-row {
+  flex-direction: row;
+  display: flex;
+  border: 1px solid black;
+  padding: 2px;
+  width: 500px;
+  justify-content: space-between;
+} */
+table {
+  border: none;
+}
+th {
+  background-color: teal;
+  color: white;
+  padding: 5px 10px;
+}
+
+td{
+  border: 1px solid #ddd;
+  padding: 8px;
+  width: 100px;
+}
+
+
+tr:nth-child(even){background-color: #f2f2f2;}
+tr:hover {
+  background-color: rgb(170, 144, 170);
+}
+
+.volume-high {
+  color: rgb(91, 192, 91);
+}
+
+.volume-low {
+  color: rgb(212, 55, 55);
+}
+
+.coin-data-container {
+  margin-top: 10px;
+  margin-left: 25px;
+  
+}
