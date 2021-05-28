@@ -55,7 +55,8 @@ Column {
 
 .ReactVirtualized__Table__headerRow {
     border: 0;
-    color: rgb(105, 105, 80);
+    color: rgb(255, 255, 255);
+    background-color: teal;
 }
 
 .ReactVirtualized__Table__headerRow:hover {
