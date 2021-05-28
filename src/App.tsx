@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import "./App.css";
-import {format} from "date-fns";
+import { format } from "date-fns";
 import CoinData from "./classes/CoinData";
-import CoinTable from "./components/CoinTable"
+import CoinTable from "./components/CoinTable";
+import CoinVirtualTable from "./components/CoinVirtualTable";
 
 const ws = new WebSocket("ws://127.0.0.1:5555");
 
 function App() {
-  const [myCount, setCount] = useState<number>(0);
+  const [virtualTableRender, setVirtualTableRender] = useState<boolean>(false);
   const [coinData, setCoinData] = useState<CoinData[]>([]);
 
   ws.onopen = () => {
@@ -19,14 +20,8 @@ function App() {
     if (event.data) {
       // console.log(event.data);
       let parsedData = JSON.parse(event.data);
-      // if(!Array.isArray(parsedData)) return;
-
       console.log("updating coinData");
-      // console.log(parsedData[0]);
 
-      // const mappedData = parsedData.map((data) => {
-      //   return new CoinData(data.name, data.value);
-      // });
       const mappedData: Array<CoinData> = parsedData.map((c: CoinData) => {
         return new CoinData(
           c.id,
@@ -52,22 +47,39 @@ function App() {
     }
   };
 
-  function upCount() {
-    setCount(myCount + 1);
+  function toggleRenderType() {
+    setVirtualTableRender(!virtualTableRender);
+  }
+
+  function renderTable() {
+    return (
+      <div>
+        {virtualTableRender ? (
+          <CoinVirtualTable coinData={coinData} />
+        ) : (
+          <CoinTable coinData={coinData}></CoinTable>
+        )}
+      </div>
+    );
   }
 
   function noData() {
     return <div style={{ color: "red" }}>No data to display.</div>;
-  }  
+  }
 
   return (
     <div className="App">
-      <div>{myCount}</div>
-      <div>
-        <button onClick={upCount}>Up count</button>
+      <div className="actions">
+        <div>
+          <button onClick={toggleRenderType}>toggle render type</button>
+        </div>
+        <div>
+          Render type: {virtualTableRender ? "Virtual Table" : "Normal Table"}
+        </div>
       </div>
       <div>
-        {coinData && coinData.length > 0 ? <CoinTable coinData={coinData}></CoinTable> : noData()}
+        {coinData && coinData.length > 0 ? renderTable() : noData()}
+        {/* <CoinVirtualTable coinData={coinData}/> */}
       </div>
     </div>
   );
